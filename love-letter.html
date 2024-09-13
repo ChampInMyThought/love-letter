@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>💌 Letter For You &lt;3</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #fdfcfb, #e2d1c3);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 36px;
+            color: #c94b4b;
+        }
+        p.instructions {
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        #container {
+            width: 80%;
+            max-width: 400px;
+            position: relative;
+            perspective: 1000px;
+        }
+        #envelope {
+            width: 100%;
+            height: 0;
+            padding-bottom: 66.66%; /* 2:3 aspect ratio */
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 1s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: #f8f4f0;
+            border-radius: 10px;
+        }
+        #envelope .front, #envelope .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: inherit;
+        }
+        #envelope .front {
+            transform: rotateX(0deg);
+            transform-origin: bottom;
+            z-index: 2;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200"><rect width="300" height="200" fill="%23f8f4f0"/><text x="150" y="100" font-size="60" text-anchor="middle" fill="%23c94b4b">&#x1F49C;</text></svg>');
+            background-size: cover;
+        }
+        #envelope.open .front {
+            transform: rotateX(-180deg);
+        }
+        #envelope .back {
+            transform: rotateX(0deg);
+            transform-origin: top;
+            z-index: 1;
+        }
+        #letter {
+            width: 90%;
+            height: 90%;
+            background: #fff;
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 18px;
+            color: #333;
+            overflow: hidden;
+            line-height: 1.5;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        #letter.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #message {
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        #message.show {
+            opacity: 1;
+        }
+        a.instagram-link {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #333;
+            text-decoration: none;
+        }
+        a.instagram-link:hover {
+            text-decoration: underline;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+            p.instructions {
+                font-size: 16px;
+            }
+        }
+        /* Additional Decorations */
+        .flower {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><circle cx="25" cy="25" r="10" fill="%23ffda03"/><circle cx="25" cy="10" r="10" fill="%23ffda03"/><circle cx="25" cy="40" r="10" fill="%23ffda03"/><circle cx="10" cy="25" r="10" fill="%23ffda03"/><circle cx="40" cy="25" r="10" fill="%23ffda03"/><circle cx="15" cy="15" r="10" fill="%23ffda03"/><circle cx="35" cy="15" r="10" fill="%23ffda03"/><circle cx="15" cy="35" r="10" fill="%23ffda03"/><circle cx="35" cy="35" r="10" fill="%23ffda03"/></svg>');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="flower"></div>
+    <h1>💌 Letter For You &lt;3</h1>
+    <p class="instructions">
+        ✨ Open the envelope to reveal a special message.
+    </p>
+    <div id="container">
+        <div id="envelope" onclick="toggleEnvelope()" tabindex="0">
+            <div class="front"></div>
+            <div class="back"></div>
+        </div>
+        <div id="letter">
+            <p id="message"></p>
+        </div>
+    </div>
+    <a href="https://www.instagram.com/champinmythought/" target="_blank" class="instagram-link">Follow me on Instagram 🌻 @ChampInMyThought</a>
+    <script>
+        var envelope = document.getElementById('envelope');
+        var letter = document.getElementById('letter');
+        var messageElement = document.getElementById('message');
+        var quotes = [
+            "My soul found its melody in your heart.",
+            "In the story of my life, you are the favorite chapter.",
+            "Your love is the ink that colors my world.",
+            "We are two notes in a beautiful symphony.",
+            "With you, even silence is eloquent.",
+            "Our hearts speak the same language.",
+            "You are the poem I never knew how to write.",
+            "Every moment with you is a timeless treasure.",
+            "Your presence turns ordinary into extraordinary.",
+            "Together, we compose a masterpiece of love.",
+            "You are the compass guiding me home.",
+            "Our love is a canvas painted with eternal hues.",
+            "In your eyes, I find the reflection of my soul.",
+            "We are stars dancing in the infinite sky of love.",
+            "Your smile unveils the secrets of the universe.",
+            "Our hearts entwined, beating as one.",
+            "You are the serenity in my chaos.",
+            "With you, dreams become our reality.",
+            "Our love is the greatest adventure.",
+            "You are the echo of my heart's deepest longing."
+        ];
+
+        function toggleEnvelope() {
+            envelope.classList.toggle('open');
+            if (envelope.classList.contains('open')) {
+                setTimeout(showLetter, 800);
+            } else {
+                hideLetter();
+            }
+        }
+
+        function showLetter() {
+            letter.classList.add('visible');
+            messageElement.innerHTML = ""; // Clear message
+            messageElement.classList.remove('show');
+            var quote = quotes[Math.floor(Math.random() * quotes.length)];
+            setTimeout(function() {
+                messageElement.innerHTML = quote;
+                messageElement.classList.add('show');
+            }, 500); // Delay to simulate message fading in
+        }
+
+        function hideLetter() {
+            messageElement.classList.remove('show');
+            setTimeout(function() {
+                letter.classList.remove('visible');
+            }, 500); // Delay to match the fade-out duration
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                event.preventDefault(); // Prevent scrolling
+                toggleEnvelope();
+            }
+        });
+    </script>
+</body>
+</html>
+
